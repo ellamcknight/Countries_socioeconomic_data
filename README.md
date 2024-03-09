@@ -1,7 +1,12 @@
 # Countries_socioeconomic_data
-Countries_socioeconomic_analysis
+## Countries socioeconomic analysis
 
-Data analysis on world health & socioeconomic data 
+Data analysis on world health & socioeconomic data. 
+
+Analytical techniques incorporated where:
+- Regression
+- Clustering 
 
 The project used one main data set sourced from:
 
+### First - exploratory data analysis:
