@@ -5,7 +5,8 @@ Data analysis on world health & socioeconomic data.
 
 Analytical techniques incorporated where:
 - Regression with polynomial features
-- Clustering 
+- Clustering
+- Outlier analysis
 
 For this project the dataset was sourced from:
 [World Bank](https://data.worldbank.org/region/world?view=chart)
@@ -161,6 +162,68 @@ The last part was to apply regularisation techniques like ridge regularisation:
 
 ![alt text](https://github.com/ellamcknight/Countries_socioeconomic_data/blob/main/Images/ridgeresiduals.png?raw=true)
 
-# Clustering analysis
+## Clustering analysis
 
+### Principal component analysis - PCA
 
+PCA is a dimensionality reduction method that is often used to reduce the dimensionality of large data sets, by transforming a large set of variables into a smaller one that still contains most of the information in the large set.
+
+![alt text](https://github.com/ellamcknight/Countries_socioeconomic_data/blob/main/Images/PCAcomponents.png?raw=true)
+
+The plot above shows the cumulative explained variance by the principal components derived from the PCA of the dataset. The x-axis represents the number of components and the y-axis represents the cumulative explained variance as a percentage of the total variance.
+
+This visualization helps to determine how many principal components should be retained to capture a significant portion of the variance in the data. Ideally, you want to choose the smallest number of principal components that still captures a large proportion of the total variance.
+
+From the plot, we can observe that the first few components already explain a substantial amount of the total variance. This suggests that these components capture the majority of the information in the dataset, allowing for dimensionality reduction without losing significant information. The curve starts to plateau as more components are added, indicating that each additional component contributes less to the explained variance.
+
+For further analysis, we might select the number of components at the point where the incremental explained variance begins to diminish significantly, often referred to as the "elbow" of the plot. This approach helps in reducing the dimensionality of the data while retaining most of the variability present in the original dataset.
+
+![alt text](https://github.com/ellamcknight/Countries_socioeconomic_data/blob/main/Images/clusters.png?raw=true)
+
+The clustering analysis using KMeans with 5 clusters has been applied to the dataset, with the principal components obtained from PCA serving as the features.  
+
+The distribution of countries across the 5 clusters is visualized in the plot, indicating how the countries are grouped based on their socio-economic and health indicators.
+
+Each cluster represents a group of countries with similar characteristics in terms of the principal components derived from the original features. The count plot shows the number of countries in each cluster, highlighting the variability in cluster sizes.
+
+From the first few rows of the dataframe with cluster labels, we see how different countries are assigned to different clusters:
+
+Afghanistan and Angola are in Cluster 1, possibly indicating similar socio-economic and health profiles that differ from those of countries in other clusters. Albania, Algeria, and Antigua and Bahamas are in Cluster 0, suggesting another set of shared characteristics among these countries. 
+
+The clustering results can be further analyzed to understand the common traits within each cluster and how they differ from those in other clusters. This analysis can provide insights into global patterns of socio-economic development, health outcomes and potentially guide targeted policy interventions.
+
+![alt text](https://github.com/ellamcknight/Countries_socioeconomic_data/blob/main/Images/clusterspervariable.png?raw=true)
+
+The box plots above compare the distributions of GDP per capita, Child Mortality Rate, and Life Expectancy  across the 5 clusters identified in our dataset. These plots can offer valuable insights into the socio-economic and health status of countries within each cluster:
+
+*Now let's understand what the model is telling us*
+
+- GDP per Capita by Cluster: Shows the economic disparity among clusters, with some clusters having significantly higher GDP per capita than others. This can indicate varying levels of economic development and wealth.
+
+- Child Mortality Rate by Cluster: Provides insights into the health and well-being of the youngest populations in different clusters. Clusters with higher child mortality rates may face more significant health challenges and potentially lower access to healthcare services.
+
+- Life Expectancy by Cluster: Highlights differences in overall health and living conditions among clusters. Higher life expectancy in certain clusters can reflect better health outcomes, possibly due to higher healthcare spending, better nutrition, and more effective public health policies.
+
+These visualizations can help policymakers, researchers, and analysts understand the multifaceted nature of development, identify which clusters may require more attention or resources, and tailor interventions to the specific needs of countries within each cluster.
+
+##### I am curious about clusters 3 and 4 and want to investigate further
+
+![alt text](https://github.com/ellamcknight/Countries_socioeconomic_data/blob/main/Images/Cluster2_3table.png?raw=true)
+
+These groups seem a little off. Possibly due to errors or outliers?
+
+## Outlier analysis
+
+Outlier analysis involves identifying and examining data points that deviate significantly from the rest of the data. These outliers can sometimes indicate data entry errors, unusual but valid data points, or other phenomena worth investigating. In the context of this dataset, outliers across socio-economic and health indicators could reveal countries with exceptional circumstances or data anomalies.
+
+![alt text](https://github.com/ellamcknight/Countries_socioeconomic_data/blob/main/Images/outliers.png?raw=true)
+
+The outlier analysis reveals the following number of outliers across the three key indicators:
+
+- GDP per Capita: 25 outliers identified. These are countries with exceptionally high or low GDP per capita compared to the global distribution, possibly indicating very high-income economies or countries with significant economic challenges.
+- Child Mortality Rate: 4 outliers detected. These outliers could represent countries with unusually high rates of child mortality, potentially due to healthcare access issues, nutritional deficiencies, or other public health challenges.
+- Life Expectancy: 3 outliers found. These are countries with significantly higher or lower life expectancy rates, which could be due to advanced healthcare systems, lifestyle factors, or, conversely, severe health crises.
+
+For a more detailed understanding, you might examine the specific countries that are outliers in each category and investigate the factors contributing to their exceptional status. This could involve looking into economic policies, healthcare infrastructure, or other socio-political factors in those countries. Outlier analysis can provide valuable insights into unique or extreme cases, helping to inform targeted interventions or further research into the causes and implications of such deviations from the norm.
+
+*A possible next step could be to remove the outliers from the datasets and rerun the analysis as this might provide a better fit for the machine learning model as you are taking a sample of data points from within a tighter range of your data.*
